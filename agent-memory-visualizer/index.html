@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Interactive visualization of how an AI agent captures, stores, consolidates and retrieves memory."
+    >
+
+    <title>
+        Agent Memory Visualizer
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- ==================================================
+         HEADER
+    =================================================== -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <div class="eyebrow">
+                RESEARCH PROTOTYPE
+            </div>
+
+            <h1>
+                Agent Memory
+                <span>
+                    Visualizer
+                </span>
+            </h1>
+
+            <p class="subtitle">
+                Explore how an agent captures, stores,
+                consolidates and retrieves knowledge.
+            </p>
+
+        </div>
+
+
+        <div class="header-status">
+
+            <span class="status-indicator"></span>
+
+            <span>
+                Frontend MVP
+            </span>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==================================================
+         INPUT
+    =================================================== -->
+
+    <section class="input-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-number">
+                    01
+                </div>
+
+                <div class="section-title">
+                    Input
+                </div>
+
+                <div class="section-description">
+                    Give the agent something to remember.
+                </div>
+
+            </div>
+
+
+            <div class="preset-container">
+
+                <button
+                    class="preset-button"
+                    data-preset="fact"
+                    type="button"
+                >
+                    Learn Fact
+                </button>
+
+
+                <button
+                    class="preset-button"
+                    data-preset="event"
+                    type="button"
+                >
+                    Remember Event
+                </button>
+
+
+                <button
+                    class="preset-button"
+                    data-preset="question"
+                    type="button"
+                >
+                    Ask Question
+                </button>
+
+
+                <button
+                    class="preset-button"
+                    data-preset="contradiction"
+                    type="button"
+                >
+                    Contradiction
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="input-container">
+
+            <textarea
+                id="memory-input"
+                class="memory-input"
+                placeholder="Enter something the agent learned..."
+                rows="5"
+            ></textarea>
+
+
+            <button
+                id="process-button"
+                class="process-button"
+                type="button"
+            >
+
+                <span>
+                    Process Memory
+                </span>
+
+                <span class="button-arrow">
+                    →
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         MEMORY PIPELINE
+    =================================================== -->
+
+    <section class="pipeline-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-number">
+                    02
+                </div>
+
+                <div class="section-title">
+                    Memory Pipeline
+                </div>
+
+                <div class="section-description">
+                    Watch information move through the
+                    agent's memory lifecycle.
+                </div>
+
+            </div>
+
+
+            <div
+                id="pipeline-status"
+                class="pipeline-status"
+            >
+                Ready
+            </div>
+
+        </div>
+
+
+        <div class="pipeline">
+
+
+            <!-- CAPTURED -->
+
+            <div
+                class="pipeline-stage active"
+                data-stage="captured"
+            >
+
+                <div class="pipeline-stage-number">
+                    01
+                </div>
+
+                <div class="pipeline-stage-name">
+                    Captured
+                </div>
+
+            </div>
+
+
+            <div class="pipeline-connector"></div>
+
+
+            <!-- EXTRACTED -->
+
+            <div
+                class="pipeline-stage"
+                data-stage="extracted"
+            >
+
+                <div class="pipeline-stage-number">
+                    02
+                </div>
+
+                <div class="pipeline-stage-name">
+                    Extracted
+                </div>
+
+            </div>
+
+
+            <div class="pipeline-connector"></div>
+
+
+            <!-- CLASSIFIED -->
+
+            <div
+                class="pipeline-stage"
+                data-stage="classified"
+            >
+
+                <div class="pipeline-stage-number">
+                    03
+                </div>
+
+                <div class="pipeline-stage-name">
+                    Classified
+                </div>
+
+            </div>
+
+
+            <div class="pipeline-connector"></div>
+
+
+            <!-- STORED -->
+
+            <div
+                class="pipeline-stage"
+                data-stage="stored"
+            >
+
+                <div class="pipeline-stage-number">
+                    04
+                </div>
+
+                <div class="pipeline-stage-name">
+                    Stored
+                </div>
+
+            </div>
+
+
+            <div class="pipeline-connector"></div>
+
+
+            <!-- CONSOLIDATED -->
+
+            <div
+                class="pipeline-stage"
+                data-stage="consolidated"
+            >
+
+                <div class="pipeline-stage-number">
+                    05
+                </div>
+
+                <div class="pipeline-stage-name">
+                    Consolidated
+                </div>
+
+            </div>
+
+
+            <div class="pipeline-connector"></div>
+
+
+            <!-- EXPORTED -->
+
+            <div
+                class="pipeline-stage"
+                data-stage="exported"
+            >
+
+                <div class="pipeline-stage-number">
+                    06
+                </div>
+
+                <div class="pipeline-stage-name">
+                    Exported
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         DECISION TRACE
+    =================================================== -->
+
+    <section class="decision-trace-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-number">
+                    03
+                </div>
+
+                <div class="section-title">
+                    Memory Decision Trace
+                </div>
+
+                <div class="section-description">
+                    See why the agent classified and stored
+                    the information in a particular memory type.
+                </div>
+
+            </div>
+
+
+            <span
+                id="decision-trace-status"
+            >
+                Waiting for input
+            </span>
+
+        </div>
+
+
+        <div
+            id="decision-trace"
+            class="decision-trace"
+        >
+
+            <div class="decision-empty">
+
+                Process a memory to see how
+                the agent makes its decision.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         MEMORY TYPES
+    =================================================== -->
+
+    <section class="memory-types-section">
+
+        <div class="memory-types-header">
+
+            <div>
+
+                <div class="section-number">
+                    04
+                </div>
+
+                <div class="section-title">
+                    Memory Types
+                </div>
+
+                <div class="section-description">
+                    Four different ways an agent can
+                    represent and use information.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="memory-grid">
+
+
+            <!-- ==================================================
+                 WORKING MEMORY
+            =================================================== -->
+
+            <article
+                class="memory-card working-card"
+                data-memory-type="working"
+            >
+
+                <div class="memory-card-top">
+
+                    <div class="memory-card-number">
+                        01
+                    </div>
+
+                    <div class="memory-card-tag">
+                        CURRENT TASK
+                    </div>
+
+                </div>
+
+
+                <div class="memory-card-icon">
+                    W
+                </div>
+
+
+                <h2>
+                    Working Memory
+                </h2>
+
+
+                <p class="memory-definition">
+                    Information currently being used
+                    by the agent for its current task.
+                </p>
+
+
+                <div
+                    id="working-memory-content"
+                    class="memory-display"
+                >
+
+                    <div class="empty-state">
+
+                        <div class="empty-title">
+                            No active task
+                        </div>
+
+                        <div class="empty-description">
+                            Working information will
+                            appear here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="memory-details-button"
+                    data-details="working"
+                    type="button"
+                >
+                    View details
+                    <span>→</span>
+                </button>
+
+            </article>
+
+
+
+            <!-- ==================================================
+                 EPISODIC MEMORY
+            =================================================== -->
+
+            <article
+                class="memory-card episodic-card"
+                data-memory-type="episodic"
+            >
+
+                <div class="memory-card-top">
+
+                    <div class="memory-card-number">
+                        02
+                    </div>
+
+                    <div class="memory-card-tag">
+                        WHAT HAPPENED?
+                    </div>
+
+                </div>
+
+
+                <div class="memory-card-icon">
+                    E
+                </div>
+
+
+                <h2>
+                    Episodic Memory
+                </h2>
+
+
+                <p class="memory-definition">
+                    Memory of events or interactions
+                    that happened.
+                </p>
+
+
+                <div
+                    id="episodic-memory-content"
+                    class="memory-display"
+                >
+
+                    <div class="empty-state">
+
+                        <div class="empty-title">
+                            No events captured
+                        </div>
+
+                        <div class="empty-description">
+                            Agent interactions will
+                            appear here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="memory-details-button"
+                    data-details="episodic"
+                    type="button"
+                >
+                    View details
+                    <span>→</span>
+                </button>
+
+            </article>
+
+
+
+            <!-- ==================================================
+                 SEMANTIC MEMORY
+            =================================================== -->
+
+            <article
+                class="memory-card semantic-card"
+                data-memory-type="semantic"
+            >
+
+                <div class="memory-card-top">
+
+                    <div class="memory-card-number">
+                        03
+                    </div>
+
+                    <div class="memory-card-tag">
+                        WHAT DO I KNOW?
+                    </div>
+
+                </div>
+
+
+                <div class="memory-card-icon">
+                    S
+                </div>
+
+
+                <h2>
+                    Semantic Memory
+                </h2>
+
+
+                <p class="memory-definition">
+                    Structured knowledge about concepts
+                    and relationships.
+                </p>
+
+
+                <div
+                    id="semantic-memory-content"
+                    class="memory-display"
+                >
+
+                    <div class="empty-state">
+
+                        <div class="empty-title">
+                            No semantic knowledge
+                        </div>
+
+                        <div class="empty-description">
+                            Structured relationships will
+                            appear here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="memory-details-button"
+                    data-details="semantic"
+                    type="button"
+                >
+                    View details
+                    <span>→</span>
+                </button>
+
+            </article>
+
+
+
+            <!-- ==================================================
+                 EXTERNAL KNOWLEDGE
+            =================================================== -->
+
+            <article
+                class="memory-card external-card"
+                data-memory-type="external"
+            >
+
+                <div class="memory-card-top">
+
+                    <div class="memory-card-number">
+                        04
+                    </div>
+
+                    <div class="memory-card-tag">
+                        PORTABLE STORAGE
+                    </div>
+
+                </div>
+
+
+                <div class="memory-card-icon">
+                    K
+                </div>
+
+
+                <h2>
+                    External Knowledge
+                </h2>
+
+
+                <p class="memory-definition">
+                    Knowledge stored outside the agent
+                    and retrieved when needed.
+                </p>
+
+
+                <div
+                    id="external-memory-content"
+                    class="memory-display"
+                >
+
+                    <div class="empty-state">
+
+                        <div class="empty-title">
+                            No external knowledge
+                        </div>
+
+                        <div class="empty-description">
+                            An OKF bundle will appear
+                            after export.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="memory-details-button"
+                    data-details="external"
+                    type="button"
+                >
+                    View details
+                    <span>→</span>
+                </button>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         GRAPH + DETAILS
+    =================================================== -->
+
+    <section class="workspace-section">
+
+
+        <!-- ==================================================
+             KNOWLEDGE GRAPH
+        =================================================== -->
+
+        <div class="graph-panel">
+
+            <div class="section-header">
+
+                <div>
+
+                    <div class="section-number">
+                        05
+                    </div>
+
+                    <div class="section-title">
+                        Knowledge Graph
+                    </div>
+
+                    <div class="section-description">
+                        See how concepts are connected
+                        through explicit relationships.
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="graph-count"
+                    class="graph-count"
+                >
+                    0 concepts · 0 relationships
+                </div>
+
+            </div>
+
+
+            <div
+                id="knowledge-graph"
+                class="knowledge-graph"
+            >
+
+                <div class="graph-empty-state">
+
+                    <div class="graph-symbol">
+                        ◇
+                    </div>
+
+                    <div class="graph-empty-title">
+                        No relationships yet
+                    </div>
+
+                    <div class="graph-empty-description">
+                        Process a piece of knowledge to
+                        create a semantic relationship.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             MEMORY DETAILS
+        =================================================== -->
+
+        <aside class="details-panel">
+
+            <div class="section-header">
+
+                <div>
+
+                    <div class="section-number">
+                        06
+                    </div>
+
+                    <div class="section-title">
+                        Memory Details
+                    </div>
+
+                    <div class="section-description">
+                        Inspect the information stored
+                        in the selected memory.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="memory-details"
+                class="memory-details"
+            >
+
+                <div class="details-empty-state">
+
+                    <div class="details-symbol">
+                        +
+                    </div>
+
+                    <div class="details-empty-title">
+                        Nothing selected
+                    </div>
+
+                    <div class="details-empty-description">
+                        Select a memory card to inspect
+                        its metadata.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         ACTIONS
+    =================================================== -->
+
+    <section class="actions-section">
+
+        <div class="actions-header">
+
+            <div class="section-number">
+                07
+            </div>
+
+            <div class="section-title">
+                Memory Actions
+            </div>
+
+            <div class="section-description">
+                Move information through the memory lifecycle.
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+
+            <button
+                id="consolidate-button"
+                class="action-button"
+                type="button"
+                disabled
+            >
+
+                <span>
+                    Consolidate Memory
+                </span>
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+
+            <button
+                id="export-button"
+                class="action-button"
+                type="button"
+                disabled
+            >
+
+                <span>
+                    Export to OKF
+                </span>
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+
+            <button
+                id="retrieve-button"
+                class="action-button"
+                type="button"
+            >
+
+                <span>
+                    Retrieve Knowledge
+                </span>
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+
+            <button
+                id="forget-button"
+                class="action-button danger"
+                type="button"
+                disabled
+            >
+
+                <span>
+                    Forget
+                </span>
+
+                <span>
+                    ×
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         FOOTER
+    =================================================== -->
+
+    <footer class="footer">
+
+        <div>
+            Agent Memory Visualizer
+        </div>
+
+        <div>
+            Educational demonstration · Frontend only
+        </div>
+
+    </footer>
+
+</div>
+
+
+
+<!-- ======================================================
+     TOAST
+======================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+    aria-live="polite"
+></div>
+
+
+
+<!-- ======================================================
+     JAVASCRIPT
+======================================================= -->
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
